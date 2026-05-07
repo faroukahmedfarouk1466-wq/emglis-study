@@ -1,43 +1,30 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>توثيق بايثون بالعربي</title>
-<link rel="stylesheet" href="assets/style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="An offline-capable PWA">
+  <meta name="theme-color" content="#2196F3">
+  
+  <link rel="manifest" href="/manifest.json">
+  <!-- <link rel="icon" type="image/png" href="/images/icon-192x192.png"> -->
+  <link rel="stylesheet" href="/styles.css">
+  
+  <title>Offline App</title>
 </head>
 <body>
-<nav>
-  <a class="nav-logo" href="index.html">🐍 توثيق بايثون بالعربي</a>
-  <ul class="nav-links">
-    <li><a href="index.html" class="active">الرئيسية</a></li>
-    <li><a href="pages/pyside6.html">PySide6</a></li><li><a href="pages/customtkinter.html">CustomTkinter</a></li><li><a href="about.html">عن الموقع</a></li>
-  </ul>
-</nav>
-<div class="hero">
-  <div class="badge">توثيق بالعربية 🇪🇬</div>
-  <h1>توثيق بايثون بالعربي</h1>
-  <p>مرجع شامل لمكتبات Python بالعربية</p>
-</div>
-<div class="cards">
-    <a class="card" href="pages/pyside6.html" style="--c:#41cd52">
-      <div class="card-icon">🖥️</div>
-      <h2>PySide6</h2>
-      <p>واجهات رسومية احترافية</p>
-      <div class="card-meta">
-        <span class="tag">10 قسم</span>
-        <span class="tag">عربي</span>
-      </div>
-    </a>
-    <a class="card" href="pages/customtkinter.html" style="--c:#1f6aa5">
-      <div class="card-icon">🎨</div>
-      <h2>CustomTkinter</h2>
-      <p>واجهات رسومية حديثة</p>
-      <div class="card-meta">
-        <span class="tag">24 قسم</span>
-        <span class="tag">عربي</span>
-      </div>
-    </a></div>
-<script src="assets/main.js"></script>
+  <header>
+    <h1>My Offline PWA</h1>
+    <span id="status">Online</span>
+  </header>
+  
+  <main>
+    <input type="text" id="taskInput" placeholder="Add a task...">
+    <button id="addBtn">Add Task</button>
+    
+    <ul id="taskList"></ul>
+  </main>
+  
+  <script src="/app.js"></script>
 </body>
 </html>
