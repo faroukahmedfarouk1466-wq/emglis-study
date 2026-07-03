@@ -1,0 +1,1114 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+  <title>📚 القاموس الشامل + القواعد</title>
+
+  <!-- ===== ربط PWA ===== -->
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#0d1117">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Markazi+Text:wght@500;700&family=Tajawal:wght@400;500;700;900&family=JetBrains+Mono:wght@400;600&family=Amiri:wght@400;700&family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  
+  <style>
+    /* ===== BASE ===== */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Tajawal', sans-serif;
+      background: #f5f7fc;
+      color: #1a2332;
+      font-size: 16px;
+      padding: 16px 12px 90px 12px;
+      min-height: 100vh;
+      transition: background 0.25s, color 0.25s, font-size 0.2s;
+    }
+    /* ===== THEMES ===== */
+    body.light { --bg: #f0f4ff; --card: rgba(255,255,255,0.78); --text: #1a2332; --sub: #3a4a62; --accent: #5e6fdb; --accent-light: #eef1fe; --border: rgba(255,255,255,0.5); --shadow: 0 12px 30px rgba(0,20,40,0.08); }
+    body.dark { --bg: #111827; --card: rgba(30,41,59,0.85); --text: #f1f5f9; --sub: #cbd5e1; --accent: #818cf8; --accent-light: #2d3a5e; --border: rgba(71,85,105,0.6); --shadow: 0 12px 30px rgba(0,0,0,0.6); }
+    body.nature { --bg: #eaf5e9; --card: rgba(246,252,245,0.85); --text: #1d3b1d; --sub: #2d5a2d; --accent: #3b8b3b; --accent-light: #d8edd8; --border: rgba(180,210,170,0.6); --shadow: 0 12px 30px rgba(20,60,20,0.08); }
+    body.warm { --bg: #fff0e6; --card: rgba(255,248,240,0.85); --text: #442b1a; --sub: #6b4c33; --accent: #d97747; --accent-light: #fce8d6; --border: rgba(230,190,160,0.5); --shadow: 0 12px 30px rgba(80,40,10,0.1); }
+    body.matrix { --bg: #0a0f0a; --card: rgba(0,20,0,0.8); --text: #00ff41; --sub: #66b866; --accent: #00ff41; --accent-light: #003300; --border: rgba(0,255,65,0.3); --shadow: 0 0 20px rgba(0,255,65,0.1); font-family: 'JetBrains Mono', monospace; }
+    body.linux { --bg: #1e1e2e; --card: rgba(30,30,46,0.9); --text: #cdd6f4; --sub: #a6adc8; --accent: #89b4fa; --accent-light: #313244; --border: rgba(137,180,250,0.3); --shadow: 0 12px 30px rgba(0,0,0,0.7); }
+    body.terminal { --bg: #0c0c0c; --card: rgba(20,20,20,0.9); --text: #e0e0e0; --sub: #a0a0a0; --accent: #f0c674; --accent-light: #2a2a2a; --border: rgba(240,198,116,0.3); --shadow: 0 0 20px rgba(240,198,116,0.05); font-family: 'JetBrains Mono', monospace; }
+    body.github { --bg: #0d1117; --card: rgba(22,27,34,0.9); --text: #c9d1d9; --sub: #8b949e; --accent: #58a6ff; --accent-light: #21262d; --border: rgba(48,54,61,0.6); --shadow: 0 12px 30px rgba(0,0,0,0.8); }
+    body.study { --bg: #1a1a2e; --card: rgba(26,26,46,0.9); --text: #e2e8f0; --sub: #a0aec0; --accent: #f6ad55; --accent-light: #2d3748; --border: rgba(246,173,85,0.3); --shadow: 0 12px 30px rgba(0,0,0,0.6); }
+    body.school { --bg: #2d1b3d; --card: rgba(45,27,61,0.9); --text: #f0e6f6; --sub: #c4b0d0; --accent: #bb86fc; --accent-light: #4a2d5e; --border: rgba(187,134,252,0.3); --shadow: 0 12px 30px rgba(0,0,0,0.6); }
+
+    body { background: var(--bg); color: var(--text); }
+    .card, .drawer, .settings-panel, .quiz-container, .word-card, .ex-card, .form-card, .formula, .nav-bar, .hero {
+      background: var(--card);
+      border-color: var(--border);
+      color: var(--text);
+    }
+    .word-en, .ex-en, .tense-name-en, .pattern, .formula, .signal-chip, .dd-item .en, .cur-en {
+      color: var(--text);
+    }
+    .word-ar, .ex-ar, .sub, .desc, .signals-note, .quiz-progress, .drawer-stats, .eyebrow, .section-label {
+      color: var(--sub);
+    }
+    .accent-bg { background: var(--accent); color: #fff; }
+    .accent-border { border-color: var(--accent); }
+    .accent-text { color: var(--accent); }
+    .bg-accent-light { background: var(--accent-light); }
+
+    /* ===== LAYOUT ===== */
+    .app-header { display: flex; align-items: center; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; }
+    .menu-btn, .settings-btn {
+      background: var(--card); backdrop-filter: blur(8px);
+      border: 1px solid var(--border); border-radius: 60px;
+      padding: 12px 16px; font-size: 1.2rem;
+      box-shadow: var(--shadow); cursor: pointer;
+      transition: 0.2s; display: flex; align-items: center; justify-content: center;
+      min-width: 50px; color: var(--text);
+    }
+    .menu-btn:hover, .settings-btn:hover { background: var(--accent-light); border-color: var(--accent); }
+    .search-wrapper {
+      flex: 1; min-width: 140px; display: flex;
+      background: var(--card); backdrop-filter: blur(8px);
+      border-radius: 60px; border: 1px solid var(--border);
+      box-shadow: var(--shadow); padding: 4px 8px 4px 4px; align-items: center;
+    }
+    .search-wrapper i { color: var(--sub); padding: 0 10px; }
+    #searchInput {
+      flex: 1; background: transparent; border: none;
+      padding: 14px 6px; font-size: 1rem; color: var(--text); outline: none;
+    }
+    #searchInput::placeholder { color: var(--sub); opacity: 0.6; }
+
+    /* Drawer */
+    .drawer {
+      position: fixed; top: 0; right: 0; width: 290px; max-width: 80%; height: 100%;
+      background: var(--card); backdrop-filter: blur(20px);
+      border-left: 1px solid var(--border); box-shadow: -8px 0 30px rgba(0,0,0,0.1);
+      z-index: 999; transform: translateX(105%);
+      transition: transform 0.35s cubic-bezier(0.4,0,0.2,1);
+      padding: 24px 18px; overflow-y: auto; display: flex; flex-direction: column; gap: 6px;
+    }
+    .drawer.open { transform: translateX(0); }
+    .drawer-overlay { position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.3); backdrop-filter: blur(4px); z-index: 998; display: none; }
+    .drawer-overlay.active { display: block; }
+    .drawer-close { align-self: flex-start; background: none; border: none; font-size: 2rem; color: var(--text); cursor: pointer; margin-bottom: 10px; }
+    .drawer-item {
+      display: flex; align-items: center; gap: 14px; padding: 14px 16px;
+      border-radius: 14px; background: var(--bg); color: var(--text);
+      font-weight: 500; border: 1px solid transparent; transition: 0.2s; cursor: pointer;
+    }
+    .drawer-item:hover { background: var(--accent-light); border-color: var(--accent); }
+    .drawer-item i { width: 28px; color: var(--accent); font-size: 1.2rem; }
+    .drawer-divider { border-top: 1px solid var(--border); margin: 8px 0; }
+    .drawer-stats { font-size: 0.8rem; color: var(--sub); padding: 10px 12px; }
+
+    /* sections */
+    .section { display: none; animation: fade 0.25s ease; }
+    .section.active { display: block; }
+    @keyframes fade { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+    /* Word Grid */
+    .word-grid { display: flex; flex-direction: column; gap: 12px; margin-top: 8px; }
+    .word-card {
+      background: var(--card); backdrop-filter: blur(8px);
+      border-radius: 24px; padding: 16px 18px;
+      box-shadow: var(--shadow); border: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px;
+    }
+    .word-content { display: flex; flex-direction: column; flex: 2; min-width: 120px; }
+    .word-en { font-weight: 700; font-size: 1.15rem; direction: ltr; text-align: left; }
+    .word-ar { font-size: 0.95rem; margin-top: 2px; }
+    .word-actions { display: flex; gap: 6px; flex-wrap: wrap; }
+    .speak-btn {
+      border: none; border-radius: 40px; padding: 6px 14px; font-size: 0.75rem; font-weight: 600;
+      cursor: pointer; display: inline-flex; align-items: center; gap: 4px;
+      transition: 0.2s; border: 1px solid transparent;
+      background: var(--accent-light); color: var(--accent);
+    }
+    .speak-btn:hover { background: var(--accent); color: #fff; }
+    .speak-btn.ar-btn { background: #e6f7e6; color: #2d7a2d; }
+    .speak-btn.ar-btn:hover { background: #2d7a2d; color: #fff; }
+    body.matrix .speak-btn, body.terminal .speak-btn { background: #1a3a1a; color: #00ff41; border-color: #00ff41; }
+    body.matrix .speak-btn:hover, body.terminal .speak-btn:hover { background: #00ff41; color: #000; }
+
+    /* ===== QUIZ ===== */
+    .quiz-container {
+      background: var(--card); backdrop-filter: blur(8px);
+      border-radius: 24px; padding: 24px 18px;
+      box-shadow: var(--shadow); border: 1px solid var(--border);
+      margin: 18px 0 10px 0;
+    }
+    .quiz-question { font-size: 1.2rem; font-weight: 600; margin-bottom: 16px; line-height: 1.6; }
+    .quiz-options { display: flex; flex-wrap: wrap; gap: 10px; margin: 12px 0; }
+    .quiz-options button {
+      background: var(--bg); border: 1px solid var(--border);
+      border-radius: 60px; padding: 12px 22px; font-size: 0.95rem;
+      color: var(--text); cursor: pointer; transition: 0.2s; flex: 1 0 auto;
+    }
+    .quiz-options button:hover { background: var(--accent-light); border-color: var(--accent); }
+    .quiz-options button.correct { background: #22c55e; color: white; border-color: #22c55e; }
+    .quiz-options button.wrong { background: #ef4444; color: white; border-color: #ef4444; }
+    .quiz-input-area { display: flex; gap: 10px; flex-wrap: wrap; margin: 12px 0; }
+    .quiz-input-area input {
+      flex: 2; padding: 14px 18px; border-radius: 60px; border: 1px solid var(--border);
+      background: var(--bg); color: var(--text); font-size: 1rem; min-width: 130px;
+    }
+    .quiz-input-area button {
+      background: var(--accent); border: none; padding: 14px 28px; border-radius: 60px;
+      color: #fff; font-weight: 700; cursor: pointer; transition: 0.2s;
+    }
+    .quiz-input-area button:hover { filter: brightness(1.1); }
+    .quiz-type-toggle { display: flex; gap: 10px; margin-bottom: 18px; flex-wrap: wrap; }
+    .quiz-type-toggle button {
+      background: var(--bg); border: 1px solid var(--border);
+      padding: 8px 20px; border-radius: 40px; color: var(--sub);
+      cursor: pointer; font-weight: 500; transition: 0.2s;
+    }
+    .quiz-type-toggle button.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+    .quiz-feedback { font-weight: 600; margin: 10px 0; padding: 8px 0; }
+    .quiz-progress { font-size: 0.85rem; color: var(--sub); margin-top: 12px; }
+
+    /* ===== GRAMMAR ===== */
+    .hero {
+      background: var(--card); backdrop-filter: blur(8px);
+      border-radius: 24px; padding: 30px 24px; margin-bottom: 20px;
+      border: 1px solid var(--border); box-shadow: var(--shadow);
+    }
+    .hero .eyebrow { font-family: 'JetBrains Mono', monospace; font-size: 13px; letter-spacing: .1em; color: var(--accent); text-transform: uppercase; }
+    .hero h1 { font-family: 'Markazi Text', serif; font-size: clamp(32px,5vw,48px); font-weight: 700; margin: 4px 0; }
+    .hero .sub { font-size: 16px; max-width: 65ch; }
+
+    .nav-bar {
+      position: sticky; top: 0; z-index: 30;
+      background: var(--card); backdrop-filter: blur(12px);
+      border: 1px solid var(--border); border-radius: 16px;
+      padding: 12px 16px; margin-bottom: 24px;
+    }
+    .dd-toggle {
+      width: 100%; display: flex; align-items: center; justify-content: space-between;
+      background: var(--accent); color: #fff;
+      border: none; border-radius: 10px; padding: 12px 16px;
+      font-family: inherit; font-weight: 700; font-size: 16px; cursor: pointer;
+    }
+    .dd-toggle .cur-en { font-family: 'JetBrains Mono', monospace; font-size: 12px; opacity: 0.8; margin-right: 10px; }
+    .dd-toggle .arrow { transition: .2s; font-size: 14px; }
+    .dd-toggle.open .arrow { transform: rotate(180deg); }
+    .dd-list {
+      position: absolute; top: calc(100% + 8px); right: 0; left: 0;
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 12px; box-shadow: var(--shadow);
+      max-height: 0; overflow: hidden; transition: max-height .25s ease; z-index: 40;
+    }
+    .dd-list.open { max-height: 70vh; overflow-y: auto; }
+    .dd-group-label {
+      font-family: 'JetBrains Mono', monospace; font-size: 11px;
+      color: var(--sub); letter-spacing: .1em; padding: 12px 16px 4px;
+    }
+    .dd-item {
+      display: flex; align-items: baseline; gap: 8px;
+      width: 100%; text-align: right; background: none; border: none;
+      padding: 10px 16px; font-family: inherit; font-size: 15px; color: var(--text);
+      cursor: pointer; border-bottom: 1px solid var(--border);
+    }
+    .dd-item:hover { background: var(--accent-light); }
+    .dd-item.active { background: var(--accent); color: #fff; font-weight: 700; }
+    .dd-item .en { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--sub); }
+    .dd-item.active .en { color: #fff; opacity: 0.8; }
+
+    .panel { display: none; }
+    .panel.active { display: block; animation: fade .25s ease; }
+    .tense-head { margin-bottom: 20px; }
+    .tense-name-en { font-family: 'JetBrains Mono', monospace; color: var(--accent); font-size: 13px; letter-spacing: .1em; }
+    .tense-head h2 { font-family: 'Markazi Text', serif; font-size: 28px; margin: 4px 0 6px; }
+    .tense-desc { color: var(--sub); font-size: 15px; max-width: 65ch; }
+
+    .formula {
+      background: var(--accent-light); color: var(--text);
+      border-radius: 10px; padding: 16px 20px;
+      font-family: 'JetBrains Mono', monospace; font-size: clamp(13px,2.5vw,16px);
+      display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
+      margin: 18px 0; border: 1px solid var(--border);
+    }
+    .formula .piece { background: rgba(0,0,0,0.1); padding: 4px 10px; border-radius: 6px; }
+    .formula .piece.h { color: var(--accent); }
+    .formula .piece.b { color: #3b8b3b; }
+    .formula .piece.v { color: #b85c5c; }
+    .formula .plus { opacity: 0.5; }
+
+    .section-label {
+      font-family: 'JetBrains Mono', monospace; font-size: 12px;
+      letter-spacing: .08em; color: var(--sub); margin: 26px 0 10px; text-transform: uppercase;
+    }
+    .forms-grid { display: grid; gap: 10px; grid-template-columns: 1fr; }
+    @media(min-width:640px){ .forms-grid { grid-template-columns: 1fr 1fr 1fr; } }
+    .form-card {
+      background: var(--bg); border: 1px solid var(--border); border-radius: 10px;
+      padding: 14px 16px; border-top: 4px solid var(--accent);
+    }
+    .form-card.neg { border-top-color: #b85c5c; }
+    .form-card.q { border-top-color: #d98e3a; }
+    .form-card .lbl { font-size: 13px; font-weight: 700; margin-bottom: 6px; display: flex; align-items: center; gap: 6px; }
+    .form-card.aff .lbl { color: var(--accent); }
+    .form-card.neg .lbl { color: #b85c5c; }
+    .form-card.q .lbl { color: #d98e3a; }
+    .form-card .pattern {
+      font-family: 'JetBrains Mono', monospace; font-size: 13.5px;
+      direction: ltr; text-align: left; color: var(--text);
+    }
+
+    .examples { display: grid; gap: 12px; }
+    .ex-card {
+      background: var(--bg); border: 1px solid var(--border);
+      border-radius: 10px; padding: 16px 18px;
+      border-right: 5px solid var(--accent);
+    }
+    .ex-card.alt { border-right-color: #d98e3a; }
+    .ex-card.neg { border-right-color: #b85c5c; }
+    .ex-tag { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--sub); letter-spacing: .06em; margin-bottom: 4px; }
+    .ex-en {
+      font-family: 'JetBrains Mono', monospace; font-size: 16px;
+      direction: ltr; text-align: left; margin-bottom: 6px;
+    }
+    .ex-en .hl { color: var(--accent); font-weight: 600; border-bottom: 2px solid var(--accent); }
+    .ex-ar { font-size: 15px; color: var(--sub); }
+
+    .signals { display: flex; flex-wrap: wrap; gap: 8px; margin: 14px 0 0; }
+    .signal-chip {
+      font-family: 'JetBrains Mono', monospace;
+      background: var(--accent-light); color: var(--text);
+      padding: 6px 14px; border-radius: 20px; font-size: 13px; font-weight: 600;
+    }
+    .signals-note { font-size: 14px; color: var(--sub); margin: 8px 0 0; }
+
+    /* Settings Panel */
+    .settings-panel {
+      position: fixed; bottom: 0; left: 0; width: 100%;
+      background: var(--card); backdrop-filter: blur(20px);
+      border-top-left-radius: 32px; border-top-right-radius: 32px;
+      padding: 28px 22px 34px; box-shadow: 0 -10px 40px rgba(0,0,0,0.15);
+      z-index: 1000; transform: translateY(105%); transition: transform 0.35s cubic-bezier(0.4,0,0.2,1);
+      display: flex; flex-direction: column; gap: 18px;
+    }
+    .settings-panel.open { transform: translateY(0); }
+    .settings-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+    .settings-row label { font-weight: 600; }
+    .theme-btns { display: flex; gap: 8px; flex-wrap: wrap; }
+    .theme-btns button {
+      border: 2px solid var(--border); border-radius: 40px; padding: 6px 18px;
+      background: var(--bg); color: var(--text); cursor: pointer;
+      font-size: 0.75rem; transition: 0.2s;
+    }
+    .theme-btns button.active-theme { border-color: var(--accent); background: var(--accent-light); box-shadow: 0 0 0 1px var(--accent); }
+    .font-size-control { display: flex; align-items: center; gap: 16px; }
+    .font-size-control button {
+      background: var(--bg); border: 1px solid var(--border);
+      border-radius: 40px; padding: 6px 18px; font-size: 1.4rem; cursor: pointer;
+      color: var(--text);
+    }
+    .font-select { padding: 8px 16px; border-radius: 40px; border: 1px solid var(--border); background: var(--bg); color: var(--text); font-size: 1rem; }
+    .settings-close { background: var(--accent); border: none; padding: 14px; border-radius: 60px; color: #fff; font-weight: 700; width: 100%; cursor: pointer; margin-top: 4px; }
+
+    .hidden { display: none !important; }
+    .badge-count { background: var(--accent-light); color: var(--accent); border-radius: 40px; padding: 2px 12px; font-size: 0.75rem; }
+    footer { text-align: center; margin-top: 40px; padding-top: 20px; border-top: 1px solid var(--border); font-size: 13px; color: var(--sub); font-family: 'JetBrains Mono', monospace; }
+    @media (max-width: 480px) { .word-card { flex-direction: column; align-items: stretch; } .word-actions { justify-content: flex-start; } body { padding: 12px 8px 100px 8px; } }
+  </style>
+</head>
+<body>
+
+<!-- Drawer -->
+<div class="drawer-overlay" id="drawerOverlay"></div>
+<nav class="drawer" id="drawer">
+  <button class="drawer-close" id="drawerClose"><i class="fas fa-times"></i></button>
+  <div class="drawer-item" data-section="dictionary"><i class="fas fa-book-open"></i> القاموس</div>
+  <div class="drawer-item" data-section="grammar"><i class="fas fa-language"></i> القواعد</div>
+  <div class="drawer-item" data-section="quiz"><i class="fas fa-pencil-alt"></i> الاختبارات</div>
+  <div class="drawer-divider"></div>
+  <div class="drawer-item" data-section="settings"><i class="fas fa-sliders-h"></i> الإعدادات</div>
+  <div class="drawer-stats"><i class="fas fa-database"></i> <span id="totalWordsCount">0</span> كلمة</div>
+</nav>
+
+<!-- Header -->
+<div class="app-header">
+  <button class="menu-btn" id="menuToggle"><i class="fas fa-bars"></i></button>
+  <div class="search-wrapper">
+    <i class="fas fa-search"></i>
+    <input type="text" id="searchInput" placeholder="ابحث عن كلمة..." autocomplete="off">
+  </div>
+  <button class="settings-btn" id="settingsToggle"><i class="fas fa-palette"></i></button>
+</div>
+
+<!-- ===== DICTIONARY SECTION ===== -->
+<div id="dictionarySection" class="section active">
+  <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px; padding:0 4px;">
+    <span style="font-weight:500; color:var(--sub);"><i class="fas fa-chevron-left"></i> النتائج</span>
+    <span class="badge-count" id="resultCount">0</span>
+  </div>
+  <div class="word-grid" id="wordGrid"></div>
+</div>
+
+<!-- ===== GRAMMAR SECTION ===== -->
+<div id="grammarSection" class="section">
+  <div class="hero">
+    <div class="eyebrow">English Grammar / القواعد الإنجليزية</div>
+    <h1>أزمنة اللغة الإنجليزية</h1>
+    <p class="sub">الاثنا عشر زمنًا الأساسية — التركيب، حالات الإثبات والنفي والسؤال، كلمات الإشارة، وأمثلة متعددة لكل زمن.</p>
+  </div>
+  <div class="nav-bar">
+    <div class="nav-inner" style="position:relative;">
+      <button class="dd-toggle" id="ddToggle">
+        <span><span id="ddCurAr">—</span> <span class="cur-en" id="ddCurEn"></span></span>
+        <span class="arrow">▾</span>
+      </button>
+      <div class="dd-list" id="ddList"></div>
+    </div>
+  </div>
+  <div id="panels"></div>
+</div>
+
+<!-- ===== QUIZ SECTION ===== -->
+<div id="quizSection" class="section">
+  <div class="quiz-container">
+    <div class="quiz-type-toggle">
+      <button class="active" data-quiz="meaning">📝 اختر المعنى</button>
+      <button data-quiz="fill">✏️ أكمل الكلمة</button>
+      <button data-quiz="grammar">⏳ اختر الزمن</button>
+    </div>
+    <div class="quiz-question" id="quizQuestion">اضغط "ابدأ"</div>
+    <div class="quiz-options" id="quizOptions"></div>
+    <div class="quiz-input-area hidden" id="quizInputArea">
+      <input type="text" id="quizFillInput" placeholder="اكتب الكلمة ...">
+      <button id="quizFillBtn">تأكيد</button>
+    </div>
+    <div class="quiz-feedback" id="quizFeedback"></div>
+    <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:6px;">
+      <button id="quizNextBtn" style="background:var(--accent);border:none;padding:12px 28px;border-radius:60px;color:#fff;font-weight:700;cursor:pointer;flex:1;">السؤال التالي</button>
+      <button id="quizResetBtn" style="background:var(--border);border:none;padding:12px 20px;border-radius:60px;color:var(--text);font-weight:600;cursor:pointer;">إعادة</button>
+    </div>
+    <div class="quiz-progress" id="quizProgress"></div>
+  </div>
+</div>
+
+<!-- ===== SETTINGS PANEL ===== -->
+<div class="settings-panel" id="settingsPanel">
+  <h3 style="display:flex;gap:10px;"><i class="fas fa-palette" style="color:var(--accent);"></i> الإعدادات</h3>
+  <div class="settings-row">
+    <label>الثيم</label>
+    <div class="theme-btns">
+      <button data-theme="light">فاتح</button>
+      <button data-theme="dark">داكن</button>
+      <button data-theme="nature">طبيعة</button>
+      <button data-theme="warm">دافئ</button>
+      <button data-theme="matrix">ماتريكس</button>
+      <button data-theme="linux">لينكس</button>
+      <button data-theme="terminal">تيرمينال</button>
+      <button data-theme="github">جيتهاب</button>
+      <button data-theme="study">دراسة</button>
+      <button data-theme="school">مدرسي</button>
+    </div>
+  </div>
+  <div class="settings-row">
+    <label>نوع الخط</label>
+    <select class="font-select" id="fontSelect">
+      <option value="Tajawal">تاجوال</option>
+      <option value="Cairo">القاهرة</option>
+      <option value="Amiri">أميري</option>
+      <option value="Markazi Text">مركزي</option>
+      <option value="JetBrains Mono">مونو (برمجي)</option>
+    </select>
+  </div>
+  <div class="settings-row">
+    <label>حجم الخط</label>
+    <div class="font-size-control">
+      <button id="fontDec">A−</button>
+      <span id="fontSizeDisplay" style="min-width:30px;text-align:center;">16</span>
+      <button id="fontInc">A+</button>
+    </div>
+  </div>
+  <button class="settings-close" id="settingsClose">إغلاق</button>
+</div>
+
+<footer>📚 قاموس + قواعد + اختبارات — يعمل بدون اتصال</footer>
+
+<script>
+  (function() {
+    // ============================================================
+    // 1. الكلمات (جميع الكلمات من الملفات السابقة - 450+)
+    // ============================================================
+    const rawWords = [
+      {en:"kick off", ar:"ينطلق / يبدأ"}, {en:"shift", ar:"نوبة / تغيير"}, {en:"buzz", ar:"طنين / ضجة"}, {en:"administer", ar:"يدير"}, {en:"chaos", ar:"فوضى"}, {en:"heartbreaking", ar:"مفطر للقلب"}, {en:"consciousness", ar:"وعي"}, {en:"panicked", ar:"مذعور"}, {en:"medication", ar:"دواء"}, {en:"collapse", ar:"ينهار"}, {en:"grab", ar:"يمسك"}, {en:"clutch", ar:"يقبض بقوة"}, {en:"stitch", ar:"غرزة"}, {en:"moan", ar:"يئن"}, {en:"groan", ar:"يتأوه"}, {en:"scope", ar:"نطاق"}, {en:"swallow", ar:"يبتلع"}, {en:"state", ar:"حالة / دولة"}, {en:"challenge", ar:"تحدي"}, {en:"paramedics", ar:"مسعفون"}, {en:"prescription", ar:"وصفة طبية"}, {en:"gratitude", ar:"امتنان"}, {en:"colleague", ar:"زميل"}, {en:"rewarding", ar:"مجزٍ"}, {en:"rollercoaster", ar:"أفعوانية"}, {en:"attention", ar:"انتباه"}, {en:"fulfilled", ar:"مُنجز / راضٍ"}, {en:"relief", ar:"ارتياح"}, {en:"dedication", ar:"تفاني"}, {en:"urgency", ar:"إلحاح"}, {en:"critical", ar:"حاسم / خطير"}, {en:"monitor", ar:"يراقب"}, {en:"never-ending", ar:"لا ينتهي"}, {en:"compassion", ar:"تعاطف"}, {en:"compression", ar:"ضغط"}, {en:"chart", ar:"مخطط"}, {en:"sacrifice", ar:"تضحية"}, {en:"beep", ar:"صفير"}, {en:"ensure", ar:"يضمن"}, {en:"mentally", ar:"ذهنياً"}, {en:"treatment", ar:"علاج"}, {en:"hesitation", ar:"تردد"},
+      {en:"sophisticated", ar:"متطور"}, {en:"initiative", ar:"مبادرة"}, {en:"infrastructure", ar:"بنية تحتية"}, {en:"change", ar:"تغيير"}, {en:"drivers", ar:"سائقون / محركات"}, {en:"version", ar:"نسخة"}, {en:"automation", ar:"أتمتة"}, {en:"evolution", ar:"تطور"}, {en:"revolution", ar:"ثورة"}, {en:"troubleshoot", ar:"استكشاف الأخطاء"}, {en:"partnership", ar:"شراكة"}, {en:"lever", ar:"رافعة"}, {en:"dynasty", ar:"سلالة حاكمة"}, {en:"artifacts", ar:"تحف أثرية"}, {en:"household", ar:"منزلي"}, {en:"appliances", ar:"أجهزة"}, {en:"chores", ar:"أعمال منزلية"}, {en:"track", ar:"يتتبع"}, {en:"enhance", ar:"يعزز"}, {en:"detect", ar:"يكتشف"}, {en:"produce", ar:"ينتج"}, {en:"production", ar:"إنتاج"}, {en:"productivity", ar:"إنتاجية"}, {en:"struggle", ar:"نضال"}, {en:"efficiency", ar:"كفاءة"}, {en:"drawbacks", ar:"عيوب"}, {en:"groundwork", ar:"أساس"}, {en:"adopt", ar:"يتبنى"}, {en:"embrace", ar:"يحتضن"}, {en:"cotton gin", ar:"حلج القطن"}, {en:"drive", ar:"قيادة / دافع"}, {en:"spellcheck", ar:"تدقيق إملائي"}, {en:"blend", ar:"مزيج"}, {en:"crafts", ar:"حرف يدوية"}, {en:"innovation", ar:"ابتكار"}, {en:"distraction", ar:"إلهاء"}, {en:"diagnosis", ar:"تشخيص"}, {en:"creativity", ar:"إبداع"}, {en:"impressive", ar:"مثير للإعجاب"},
+      {en:"profound", ar:"عميق"}, {en:"meteorologist", ar:"خبير أرصاد"}, {en:"marginalized", ar:"مهمش"}, {en:"scorching", ar:"حارق"}, {en:"intensity", ar:"شدة"}, {en:"phenomenon", ar:"ظاهرة"}, {en:"industrialized", ar:"صناعي"}, {en:"equity", ar:"إنصاف"}, {en:"justice", ar:"عدالة"}, {en:"crisis", ar:"أزمة"}, {en:"emphasize", ar:"يؤكد"}, {en:"projections", ar:"توقعات"}, {en:"dominant", ar:"مسيطر"}, {en:"omnipresent", ar:"موجود في كل مكان"}, {en:"ambivalence", ar:"تضارب مشاعر"}, {en:"indicate", ar:"يشير"}, {en:"accompanied", ar:"مصحوب"}, {en:"mitigate", ar:"يخفف"}, {en:"prolonged", ar:"ممتد"}, {en:"vulnerable", ar:"ضعيف / معرض للخطر"}, {en:"persistence", ar:"إصرار"}, {en:"thermal", ar:"حراري"}, {en:"implication", ar:"تضمين / تداعيات"}, {en:"substantial", ar:"كبير / جوهري"}, {en:"emissions", ar:"انبعاثات"}, {en:"advocate", ar:"يدعو / مؤيد"}, {en:"burden", ar:"عبء"}, {en:"empower", ar:"يمكّن"}, {en:"tangible", ar:"ملموس"}, {en:"accelerated", ar:"متسارع"}, {en:"heatwave", ar:"موجة حر"}, {en:"migration", ar:"هجرة"}, {en:"sustainable", ar:"مستدام"}, {en:"displacement", ar:"تهجير"}, {en:"large-scale", ar:"واسع النطاق"}, {en:"megacities", ar:"مدن عملاقة"}, {en:"inundation", ar:"فيضان"}, {en:"transformative", ar:"تحويلي"}, {en:"expansion", ar:"توسع"}, {en:"commitment", ar:"التزام"}, {en:"implementation", ar:"تنفيذ"}, {en:"implemented", ar:"مُطبَّق"},
+      {en:"fragile", ar:"هش"}, {en:"hazardous", ar:"خطير"}, {en:"pose", ar:"يشكل / يطرح"}, {en:"bleach", ar:"مبيض"}, {en:"vivid", ar:"حي / زاهي"}, {en:"erosion", ar:"تآكل"}, {en:"thrive", ar:"يزدهر"}, {en:"diverse", ar:"متنوع"}, {en:"underestimate", ar:"يقلل من شأن"}, {en:"haunting", ar:"مؤرق"}, {en:"lively", ar:"نابض بالحياة"}, {en:"disrupt", ar:"يعطل"}, {en:"care", ar:"رعاية / اهتمام"}, {en:"breathtaking", ar:"يخطف الأنفاس"}, {en:"dedicated", ar:"مخلص"}, {en:"non-invasive", ar:"غير جراحي"}, {en:"entangled", ar:"متشابك"}, {en:"magnificent", ar:"رائع"}, {en:"coordinated", ar:"منسق"}, {en:"literally", ar:"حرفياً"}, {en:"figuratively", ar:"مجازياً"}, {en:"detect", ar:"يكتشف"}, {en:"awe-inspiring", ar:"مذهل"}, {en:"crystal-clear", ar:"واضح جداً"}, {en:"brand-new", ar:"جديد تماماً"}, {en:"glowing", ar:"مضيء"}, {en:"glow-producing", ar:"منتج للوهج"}, {en:"time-consuming", ar:"يستغرق وقتاً"}, {en:"densely-populated", ar:"كثيف السكان"}, {en:"mind-blowing", ar:"مدهش"}, {en:"mind-blowingly", ar:"بشكل مذهل"}, {en:"fast-changing", ar:"سريع التغير"}, {en:"old-fashioned", ar:"قديم الطراز"}, {en:"long-lasting", ar:"طويل الأمد"}, {en:"hard-to-survive", ar:"صعب البقاء"}, {en:"well-behaved", ar:"حسن السلوك"}, {en:"heart-warming", ar:"مبهج للقلب"}, {en:"long-distance", ar:"بعيد المدى"}, {en:"plastic-filled", ar:"مملوء بالبلاستيك"}, {en:"life-saving", ar:"منقذ للحياة"}, {en:"strange-looking", ar:"غريب المظهر"}, {en:"light-producing", ar:"منتج للضوء"}, {en:"fast-rising", ar:"سريع الارتفاع"}, {en:"graceful", ar:"رشيق"}, {en:"destructive", ar:"مدمر"}, {en:"vibrant", ar:"نابض بالحياة"},
+      {en:"mindset", ar:"عقلية"}, {en:"flawless", ar:"لا تشوبه شائبة"}, {en:"insight", ar:"بصيرة"}, {en:"curious", ar:"فضولي"}, {en:"transformation", ar:"تحول"}, {en:"repetitive", ar:"متكرر"}, {en:"literacy", ar:"محو الأمية"}, {en:"data management", ar:"إدارة البيانات"}, {en:"collaboration", ar:"تعاون"}, {en:"flexibility", ar:"مرونة"}, {en:"physical effort", ar:"جهد جسدي"}, {en:"emotion", ar:"عاطفة"}, {en:"emotional", ar:"عاطفي"}, {en:"capture", ar:"يلتقط"}, {en:"workforce", ar:"قوى عاملة"}, {en:"manufacturing", ar:"تصنيع"}, {en:"advance", ar:"تقدم"}, {en:"contract", ar:"عقد"}, {en:"judgment", ar:"حكم"}, {en:"critical thinking", ar:"تفكير نقدي"}, {en:"accuracy", ar:"دقة"}, {en:"imitate", ar:"يقلد"}, {en:"construction", ar:"بناء"}, {en:"income", ar:"دخل"}, {en:"risk", ar:"خطر"}, {en:"rapid change", ar:"تغير سريع"}, {en:"pocket-sized", ar:"حجم الجيب"}, {en:"leading", ar:"رائد"}, {en:"lonely", ar:"وحيد"}, {en:"warmth", ar:"دفء"}, {en:"future-proof", ar:"مقاوم للتقادم"}, {en:"creativity", ar:"إبداع"}, {en:"humanity", ar:"إنسانية"}, {en:"human insight", ar:"بصيرة بشرية"}, {en:"human spark", ar:"شعلة بشرية"}, {en:"plot", ar:"مؤامرة / حبكة"}, {en:"diagnose", ar:"يشخص"}, {en:"muscles", ar:"عضلات"}, {en:"in response", ar:"رداً على"}, {en:"analyze", ar:"يحلل"}, {en:"strength", ar:"قوة"}, {en:"automated assist", ar:"مساعد آلي"}, {en:"manager", ar:"مدير"}, {en:"magic", ar:"سحر"}, {en:"coding", ar:"برمجة"}, {en:"distribution", ar:"توزيع"},
+      {en:"clumsy", ar:"أخرق"}, {en:"clumsiness", ar:"خرق"}, {en:"hang out", ar:"يتسكع"}, {en:"depression", ar:"اكتئاب"}, {en:"socialize", ar:"يتواصل اجتماعياً"}, {en:"glamorous", ar:"جذاب / براق"}, {en:"mortify", ar:"يحرج"}, {en:"mortifying", ar:"محرج"}, {en:"promotion", ar:"ترقية"}, {en:"strengthen", ar:"يقوي"}, {en:"maintain", ar:"يحافظ"}, {en:"embarrassing", ar:"محرج"}, {en:"embarrassed", ar:"محرج"}, {en:"overwhelming", ar:"ساحق / طاغ"}, {en:"compromise", ar:"تسوية"}, {en:"well-being", ar:"رفاهية"}, {en:"disaster", ar:"كارثة"}, {en:"interaction", ar:"تفاعل"}, {en:"superficially", ar:"سطحياً"}, {en:"empathy", ar:"تعاطف"}, {en:"anxiety", ar:"قلق"}, {en:"affection", ar:"عاطفة"}, {en:"guarantee", ar:"يضمن"}, {en:"impression", ar:"انطباع"}, {en:"entertainment", ar:"ترفيه"}, {en:"harmful", ar:"ضار"}, {en:"worth", ar:"قيمة"}, {en:"cruelty", ar:"قسوة"}, {en:"packed", ar:"مكتظ"}, {en:"description", ar:"وصف"}, {en:"convince", ar:"يقنع"}, {en:"insist", ar:"يصر"}, {en:"reassure", ar:"يطمئن"}, {en:"disappointment", ar:"خيبة أمل"}, {en:"awkward", ar:"محرج / صعب"}, {en:"boost", ar:"يعزز"}, {en:"beneficial", ar:"مفيد"}, {en:"schedule", ar:"جدول"}, {en:"weeknight", ar:"ليلة أيام الأسبوع"}, {en:"unbearable", ar:"لا يطاق"}, {en:"decline", ar:"ينخفض / يرفض"}, {en:"balanced", ar:"متوازن"}, {en:"cheerful", ar:"مبتهج"}, {en:"dull", ar:"باهت"}, {en:"measures", ar:"إجراءات"}, {en:"shelter", ar:"مأوى"},
+      {en:"board", ar:"لوح / ركوب"}, {en:"boarding pass", ar:"بطاقة صعود"}, {en:"departure lounge", ar:"صالة مغادرة"}, {en:"terminal", ar:"محطة"}, {en:"restrictions", ar:"قيود"}, {en:"vacation", ar:"إجازة"}, {en:"security checkpoint", ar:"نقطة تفتيش"}, {en:"information desk", ar:"مكتب استعلامات"}, {en:"bustling", ar:"مزدحم"}, {en:"carry-on", ar:"حقيبة يد"}, {en:"luxury", ar:"رفاهية"}, {en:"strike up", ar:"يبدأ (محادثة)"}, {en:"navigate", ar:"يتنقل / يوجه"}, {en:"reassure", ar:"يطمئن"}, {en:"document", ar:"وثيقة"}, {en:"variety", ar:"تنوع"}, {en:"approach", ar:"نهج / يقترب"}, {en:"handle", ar:"يتعامل مع"}, {en:"critical", ar:"حاسم"}, {en:"phrase", ar:"عبارة"}, {en:"destination", ar:"وجهة"}, {en:"confusion", ar:"ارتباك"}, {en:"embassy", ar:"سفارة"}, {en:"confirmation", ar:"تأكيد"}, {en:"route", ar:"طريق"}, {en:"retort", ar:"يرد بحدّة"}, {en:"attend", ar:"يحضر"}, {en:"gate", ar:"بوابة"}, {en:"pack", ar:"يحزم"}, {en:"companion", ar:"رفيق"}, {en:"announce", ar:"يعلن"}, {en:"promotion", ar:"ترقية"}, {en:"rush", ar:"اندفاع"}, {en:"valid", ar:"صالح"}, {en:"swap", ar:"يتبادل"}, {en:"disaster", ar:"كارثة"}, {en:"error", ar:"خطأ"}, {en:"facilitate", ar:"يسهل"}, {en:"facility", ar:"منشأة"}, {en:"claim", ar:"يدعي / مطالبة"}, {en:"inclusive", ar:"شامل"}, {en:"debate", ar:"نقاش"}, {en:"initiative", ar:"مبادرة"}, {en:"campaign", ar:"حملة"},
+      {en:"conference", ar:"مؤتمر"}, {en:"geographical", ar:"جغرافي"}, {en:"strategically", ar:"استراتيجياً"}, {en:"peninsula", ar:"شبه جزيرة"}, {en:"maritime", ar:"بحري"}, {en:"crossroads", ar:"مفترق طرق"}, {en:"fertile", ar:"خصب"}, {en:"fertilizer", ar:"سماد"}, {en:"irrigation system", ar:"نظام ري"}, {en:"innovation", ar:"ابتكار"}, {en:"hatching", ar:"تفقيس"}, {en:"scribe", ar:"كاتب / ناسخ"}, {en:"reign", ar:"عهد"}, {en:"invasion", ar:"غزو"}, {en:"abundant", ar:"وافر"}, {en:"paradise", ar:"جنة"}, {en:"foundation", ar:"أساس"}, {en:"originate", ar:"ينشأ"}, {en:"dynasty", ar:"سلالة"}, {en:"legal codes", ar:"قوانين"}, {en:"lifeline", ar:"شريان حياة"}, {en:"harmony", ar:"تناغم"}, {en:"scholar", ar:"عالم"}, {en:"architecture", ar:"عمارة"}, {en:"powerful", ar:"قوي"}, {en:"significant", ar:"هام"}, {en:"glorious", ar:"مجيد"}, {en:"Silk Road", ar:"طريق الحرير"}, {en:"terra cotta", ar:"فخار"}, {en:"porcelain", ar:"خزف"}, {en:"ziggurat", ar:"زقورة"}, {en:"fascinating", ar:"رائع / ساحر"}, {en:"compass", ar:"بوصلة"}, {en:"mighty", ar:"جبار"}, {en:"civilization", ar:"حضارة"}, {en:"shipping", ar:"شحن"}, {en:"overflow", ar:"فيضان"}, {en:"empire", ar:"إمبراطورية"}, {en:"crucial", ar:"حاسم"}, {en:"remarkable", ar:"ملحوظ"}, {en:"revolutionize", ar:"يحدث ثورة"}, {en:"eliminate", ar:"يزيل"}, {en:"complex", ar:"معقد"}, {en:"barren", ar:"قاحل"}, {en:"smuggler", ar:"مهرب"},
+      {en:"horizon", ar:"أفق"}, {en:"event horizon", ar:"أفق الحدث"}, {en:"universe", ar:"الكون"}, {en:"cosmos", ar:"الفضاء"}, {en:"galaxy", ar:"مجرة"}, {en:"singularity", ar:"تفرد"}, {en:"boundary", ar:"حد"}, {en:"mystery", ar:"لغز"}, {en:"mysterious", ar:"غامض"}, {en:"curiosity", ar:"فضول"}, {en:"dimension", ar:"بعد"}, {en:"gateway", ar:"بوابة"}, {en:"doorway", ar:"مدخل"}, {en:"trapdoor", ar:"باب سري"}, {en:"measurement", ar:"قياس"}, {en:"misconception", ar:"فكرة خاطئة"}, {en:"black holes", ar:"ثقوب سوداء"}, {en:"gravity", ar:"جاذبية"}, {en:"gravitational", ar:"جاذبي"}, {en:"theory", ar:"نظرية"}, {en:"compressed", ar:"مضغوط"}, {en:"chance", ar:"فرصة"}, {en:"opportunity", ar:"فرصة"}, {en:"telescope", ar:"تلسكوب"}, {en:"hidden", ar:"مخفي"}, {en:"fear", ar:"خوف"}, {en:"invisible", ar:"غير مرئي"}, {en:"escape", ar:"يهرب"}, {en:"guilty", ar:"مذنب"}, {en:"detective", ar:"مخبر"}, {en:"astronomer", ar:"فلكي"}, {en:"shadow", ar:"ظل"}, {en:"dense", ar:"كثيف"}, {en:"density", ar:"كثافة"}, {en:"myth", ar:"أسطورة"}, {en:"bend", ar:"ينحني"}, {en:"assumption", ar:"افتراض"}, {en:"reputation", ar:"سمعة"}, {en:"collapse", ar:"انهيار"}, {en:"crush", ar:"يسحق"}, {en:"capture", ar:"يأسر"}, {en:"solar system", ar:"نظام شمسي"}, {en:"Milky Way", ar:"درب التبانة"}, {en:"suspect", ar:"مشتبه به"},
+      {en:"generosity", ar:"كرم"}, {en:"polite", ar:"مهذب"}, {en:"politeness", ar:"أدب"}, {en:"hospitable", ar:"مضياف"}, {en:"hospitality", ar:"ضيافة"}, {en:"compliment", ar:"مجاملة"}, {en:"gesture", ar:"لفتة"}, {en:"unhesitatingly", ar:"بدون تردد"}, {en:"thoughtful", ar:"مراعٍ للآخرين"}, {en:"thoughtfulness", ar:"مراعاة"}, {en:"unforgettable", ar:"لا يُنسى"}, {en:"patronize", ar:"يتعامل باستعلاء"}, {en:"patronizing", ar:"استعلائي"}, {en:"collectivist", ar:"جماعي"}, {en:"individualistic", ar:"فردي"}, {en:"spontaneous", ar:"عفوي"}, {en:"appreciate", ar:"يقدّر"}, {en:"value", ar:"قيمة / يقدر"}, {en:"backpacking", ar:"السفر بحقيبة ظهر"}, {en:"dietary", ar:"غذائي"}, {en:"shelter", ar:"مأوى"}, {en:"diary", ar:"مذكرات"}, {en:"moved", ar:"متأثر"}, {en:"grateful", ar:"شاكر"}, {en:"rude", ar:"وقح"}, {en:"warmth", ar:"دفء"}, {en:"experience", ar:"تجربة"}, {en:"charity", ar:"صدقة"}, {en:"genuine", ar:"صادق"}, {en:"verbally", ar:"شفهياً"}, {en:"bow", ar:"ينحني"}, {en:"honor", ar:"شرف"}, {en:"heartfelt", ar:"صميمي"}, {en:"universal", ar:"عالمي"}, {en:"overwhelming", ar:"ساحق"}, {en:"specific", ar:"محدد"}, {en:"concept", ar:"مفهوم"}, {en:"unexpected", ar:"غير متوقع"}, {en:"generous", ar:"كريم"}, {en:"budget", ar:"ميزانية"}, {en:"core", ar:"جوهر"}, {en:"respect", ar:"احترام"}, {en:"regarding", ar:"بخصوص"}, {en:"reflection", ar:"تفكير / انعكاس"},
+      {en:"literature", ar:"أدب"}, {en:"imagery", ar:"صور بلاغية"}, {en:"procedures", ar:"إجراءات"}, {en:"rhythm", ar:"إيقاع"}, {en:"fiction", ar:"خيال"}, {en:"non-fiction", ar:"واقعي"}, {en:"feedback", ar:"تغذية راجعة"}, {en:"legends", ar:"أساطير"}, {en:"novel", ar:"رواية"}, {en:"rejection", ar:"رفض"}, {en:"moral", ar:"عبرة"}, {en:"profession", ar:"مهنة"}, {en:"confidence", ar:"ثقة"}, {en:"folktale", ar:"حكاية شعبية"}, {en:"isolate", ar:"يعزل"}, {en:"isolating", ar:"معزول"}, {en:"discipline", ar:"انضباط"}, {en:"root", ar:"جذر"}, {en:"playwright", ar:"كاتب مسرحي"}, {en:"theme", ar:"موضوع"}, {en:"feature", ar:"خاصية"}, {en:"classics", ar:"الكلاسيكيات"}, {en:"classical", ar:"كلاسيكي"}, {en:"flow", ar:"تدفق"}, {en:"cheerful", ar:"مبتهج"}, {en:"wander", ar:"يتجول"}, {en:"poetry", ar:"شعر"}, {en:"prose", ar:"نثر"}, {en:"dialog", ar:"حوار"}, {en:"escape", ar:"يهرب"}, {en:"breeze", ar:"نسيم"}, {en:"memory", ar:"ذاكرة"}, {en:"memories", ar:"ذكريات"}, {en:"magical", ar:"سحري"}, {en:"analysis", ar:"تحليل"}, {en:"wisdom", ar:"حكمة"}, {en:"descriptive", ar:"وصفي"}, {en:"scene", ar:"مشهد"}, {en:"baking", ar:"خبز"}, {en:"chilly", ar:"بارد"}, {en:"overcast", ar:"غائم"}, {en:"humid", ar:"رطب"}, {en:"forecast", ar:"توقعات الطقس"},
+      {en:"address", ar:"عنوان"}, {en:"habitat", ar:"موئل"}, {en:"independence", ar:"استقلال"}, {en:"internship", ar:"تدريب داخلي"}, {en:"apprenticeship", ar:"تدريب مهني"}, {en:"reputation", ar:"سمعة"}, {en:"rehearsal", ar:"بروفة"}, {en:"facilities", ar:"مرافق"}, {en:"terrified", ar:"مرعوب"}, {en:"passion", ar:"شغف"}, {en:"passionate", ar:"شغوف"}, {en:"applicant", ar:"متقدم"}, {en:"factor", ar:"عامل"}, {en:"ranking", ar:"ترتيب"}, {en:"motivating", ar:"محفز"}, {en:"encouraging", ar:"مشجع"}, {en:"inspiring", ar:"ملهم"}, {en:"interests", ar:"اهتمامات"}, {en:"freedom", ar:"حرية"}, {en:"courage", ar:"شجاعة"}, {en:"career", ar:"مسيرة مهنية"}, {en:"ethical", ar:"أخلاقي"}, {en:"jealous", ar:"غيور"}, {en:"scroll", ar:"تمرير / لفافة"}, {en:"law", ar:"قانون"}, {en:"nursing", ar:"تمريض"}, {en:"well-known", ar:"مشهور"}, {en:"clothing", ar:"ملابس"}, {en:"performance", ar:"أداء"}, {en:"graduate", ar:"خريج"}, {en:"geology", ar:"جيولوجيا"}, {en:"philosophy", ar:"فلسفة"}, {en:"philosophical", ar:"فلسفي"}, {en:"psychology", ar:"علم نفس"}, {en:"practical", ar:"عملي"}, {en:"hieroglyphics", ar:"هيروغليفية"}, {en:"architecture", ar:"عمارة"}, {en:"dentistry", ar:"طب أسنان"}, {en:"legacy", ar:"إرث"}, {en:"fascinated", ar:"مفتون"}, {en:"agency", ar:"وكالة"}, {en:"biography", ar:"سيرة ذاتية"}, {en:"engineering", ar:"هندسة"}, {en:"cultural awareness", ar:"وعي ثقافي"}, {en:"financial", ar:"مالي"},
+      {en:"quality over quantity", ar:"الجودة أهم من الكمية"}, {en:"in hot water", ar:"في ورطة"}, {en:"heart sinks", ar:"يشعر بخيبة أمل"}, {en:"go with the flow", ar:"يتقبل الأمور"}, {en:"update someone on something", ar:"يزود بآخر المعلومات"}, {en:"go bananas", ar:"يجن جنونه"}, {en:"when pigs fly", ar:"عندما يستحيل حدوث شيء"}, {en:"out of the blue", ar:"فجأة"}, {en:"make my day", ar:"يسعدني جداً"}, {en:"in a tight corner", ar:"في موقف صعب"}, {en:"a piece of cake", ar:"سهل جداً"}, {en:"think out of the box", ar:"يفكر بإبداع"}, {en:"under the weather", ar:"تعبان"}, {en:"rain cats and dogs", ar:"تمطر بغزارة"}, {en:"spring into action", ar:"ينطلق للعمل"}, {en:"soaked to the skin", ar:"مبتل تماماً"}, {en:"teamwork makes the dream work", ar:"التعاون ينجح"}, {en:"pale as a ghost", ar:"شاحب كالشبح"}, {en:"go the extra mile", ar:"يبذل جهداً إضافياً"}, {en:"lay the groundwork", ar:"يضع الأساس"}, {en:"full steam ahead", ar:"بكل قوة"}, {en:"come to a standstill", ar:"يتوقف تماماً"}, {en:"break the ice", ar:"يكسر الجليد"}, {en:"on thin ice", ar:"في موقف خطير"}, {en:"bear the brunt", ar:"يتحمل وطأة"}, {en:"take the heat", ar:"يتحمل النقد"}, {en:"face the music", ar:"يواجه العواقب"}, {en:"pay the price", ar:"يدفع الثمن"}, {en:"in deep water", ar:"في مأزق"}, {en:"turn a blind eye", ar:"يتغاضى"}, {en:"over the moon", ar:"سعيد جداً"}, {en:"a stitch in time saves nine", ar:"درهم وقاية خير من قنطار علاج"}, {en:"thing of the past", ar:"شيء من الماضي"}, {en:"run out of steam", ar:"يفقد الحماس"}, {en:"stay ahead of the curve", ar:"متقدم على الآخرين"}, {en:"think outside the box", ar:"يفكر خارج الصندوق"}, {en:"climb the career ladder", ar:"يتدرج في المناصب"}, {en:"spill the beans", ar:"يفشي السر"}, {en:"think on your feet", ar:"يتصرف بسرعة"}, {en:"call it a day", ar:"يكف عن العمل"}, {en:"hit the town", ar:"يخرج للاستمتاع"}, {en:"go through thick and thin", ar:"يدعم في السراء والضراء"}, {en:"stand by your side", ar:"يقف بجانبك"}, {en:"keep my hands to myself", ar:"لا ألمس أحداً"}, {en:"catch up on old times", ar:"يتحدث عن الماضي"}, {en:"invest in your well-being", ar:"يستثمر في صحته"}
+    ];
+
+    // Remove duplicates
+    const seen = new Set();
+    const wordsData = [];
+    for (let w of rawWords) {
+      const key = w.en.toLowerCase().trim();
+      if (!seen.has(key)) { seen.add(key); wordsData.push(w); }
+    }
+    document.getElementById('totalWordsCount').textContent = wordsData.length;
+
+    // ============================================================
+    // 2. بيانات الأزمنة (12 زمن)
+    // ============================================================
+    const tenses = [
+      { id:"pres-simple", group:"المضارع", nameAr:"المضارع البسيط", nameEn:"Simple Present",
+        desc:"للحقائق الثابتة، العادات، والأمور المتكررة، والجداول الثابتة.",
+        formula:[["subject","h"],["V1 (+s/es مع he/she/it)","v"]],
+        forms:{ aff:"S + V1 (+s/es)", neg:"S + don't / doesn't + V1", q:"Do / Does + S + V1 ?" },
+        signals:["always","usually","often","every day","never","sometimes","on Mondays"],
+        examples:[
+          ["aff","I <span class='hl'>play</span> football every Friday.", "ألعب كرة القدم كل جمعة."],
+          ["aff","The sun <span class='hl'>rises</span> from the east.", "الشمس تشرق من الشرق."],
+          ["aff","She <span class='hl'>works</span> in a hospital.", "هي تعمل في مستشفى."],
+          ["neg","They <span class='hl'>don't like</span> coffee.", "هم لا يحبون القهوة."],
+          ["neg","He <span class='hl'>doesn't usually drive</span> to work.", "هو عادة ما يسوقش للشغل."],
+          ["q","Does he <span class='hl'>speak</span> Arabic?", "هل هو يتكلم عربي؟"],
+          ["q","What time <span class='hl'>does</span> the train <span class='hl'>leave</span>?", "القطار بيتحرك الساعة كام؟"]
+        ]
+      },
+      { id:"pres-cont", group:"المضارع", nameAr:"المضارع المستمر", nameEn:"Present Continuous",
+        desc:"لفعل يحدث الآن لحظة الكلام، أو خطة مستقبلية مؤكدة، أو موقف مؤقت.",
+        formula:[["am/is/are","h"],["V-ing","v"]],
+        forms:{ aff:"S + am/is/are + V-ing", neg:"S + am/is/are + not + V-ing", q:"Am / Is / Are + S + V-ing ?" },
+        signals:["now","right now","at the moment","currently","look!","these days","Listen!"],
+        examples:[
+          ["aff","I <span class='hl'>am studying</span> right now.", "أنا بدرس دلوقتي."],
+          ["aff","She <span class='hl'>is cooking</span> dinner.", "هي بتطبخ العشا."],
+          ["aff","We <span class='hl'>are meeting</span> them tomorrow.", "هنقابلهم بكرة (خطة مؤكدة)."],
+          ["neg","They <span class='hl'>are not watching</span> TV at the moment.", "هم مش بيتفرجوا تليفزيون دلوقتي."],
+          ["neg","I <span class='hl'>am not feeling</span> well today.", "أنا مش حاسس إني تمام النهارده."],
+          ["q","What <span class='hl'>are</span> you <span class='hl'>doing</span>?", "بتعمل إيه دلوقتي؟"],
+          ["q","Is he <span class='hl'>working</span> on the project these days?", "هل هو شغال على المشروع الفترة دي؟"]
+        ]
+      },
+      { id:"pres-perf", group:"المضارع", nameAr:"المضارع التام", nameEn:"Present Perfect",
+        desc:"فعل حدث في الماضي ولكن له أثر أو صلة بالحاضر، أو خبرة حياتية بدون تحديد الوقت.",
+        formula:[["have/has","h"],["V3 (past participle)","v"]],
+        forms:{ aff:"S + have/has + V3", neg:"S + haven't / hasn't + V3", q:"Have / Has + S + V3 ?" },
+        signals:["already","just","yet","ever","never","since","for","so far"],
+        examples:[
+          ["aff","I <span class='hl'>have finished</span> my homework.", "خلصت واجبي (والنتيجة موجودة دلوقتي)."],
+          ["aff","She <span class='hl'>has visited</span> Paris twice.", "هي زارت باريس مرتين."],
+          ["aff","He <span class='hl'>has lived</span> here since 2015.", "هو ساكن هنا من سنة 2015."],
+          ["neg","We <span class='hl'>haven't seen</span> him yet.", "إحنا لسه ما شفناهوش."],
+          ["neg","She <span class='hl'>hasn't finished</span> the report so far.", "هي لسه ما خلصتش التقرير لحد دلوقتي."],
+          ["q","Have you <span class='hl'>ever tried</span> sushi?", "هل جربت السوشي قبل كده؟"],
+          ["q","Has he <span class='hl'>just left</span>?", "هل هو لسه طالع دلوقتي؟"]
+        ]
+      },
+      { id:"pres-perf-cont", group:"المضارع", nameAr:"المضارع التام المستمر", nameEn:"Present Perfect Continuous",
+        desc:"فعل بدأ في الماضي ومستمر حتى الآن، مع التركيز على مدة الاستمرار.",
+        formula:[["have/has","h"],["been","b"],["V-ing","v"]],
+        forms:{ aff:"S + have/has been + V-ing", neg:"S + haven't/hasn't been + V-ing", q:"Have / Has + S + been + V-ing ?" },
+        signals:["for","since","how long","lately","recently","all day"],
+        examples:[
+          ["aff","I <span class='hl'>have been studying</span> English for 3 years.", "بدرس إنجليزي من 3 سنين (ولسه)."],
+          ["aff","She <span class='hl'>has been living</span> in Cairo since 2018.", "هي عايشة في القاهرة من 2018."],
+          ["aff","Why are you tired? I <span class='hl'>have been running</span>.", "ليه تعبان؟ كنت بجري."],
+          ["neg","We <span class='hl'>haven't been sleeping</span> well lately.", "إحنا مش بننام كويس الفترة دي."],
+          ["neg","He <span class='hl'>hasn't been working</span> here for long.", "هو مش شغال هنا من مدة طويلة."],
+          ["q","How long <span class='hl'>have</span> you <span class='hl'>been learning</span> Spanish?", "من إمتى وانت بتتعلم إسباني؟"],
+          ["q","Has it <span class='hl'>been raining</span> all day?", "هل الدنيا بتمطر طول اليوم؟"]
+        ]
+      },
+      { id:"past-simple", group:"الماضي", nameAr:"الماضي البسيط", nameEn:"Simple Past",
+        desc:"لفعل حدث وانتهى في وقت محدد في الماضي.",
+        formula:[["subject","h"],["V2 (past form)","v"]],
+        forms:{ aff:"S + V2", neg:"S + didn't + V1", q:"Did + S + V1 ?" },
+        signals:["yesterday","last week","in 2010","ago","then","last night"],
+        examples:[
+          ["aff","I <span class='hl'>visited</span> my grandmother yesterday.", "زرت جدتي إمبارح."],
+          ["aff","They <span class='hl'>watched</span> a film two days ago.", "هم اتفرجوا فيلم من يومين."],
+          ["aff","We <span class='hl'>were</span> in Cairo in 2019.", "كنا في القاهرة سنة 2019."],
+          ["neg","She <span class='hl'>didn't go</span> to school last Monday.", "هي ما راحتش المدرسة الإثنين اللي فات."],
+          ["neg","He <span class='hl'>didn't call</span> me last night.", "هو ما اتصلش بيا إمبارح بالليل."],
+          ["q","Did you <span class='hl'>call</span> him last night?", "هل اتصلت بيه إمبارح بالليل؟"],
+          ["q","Where did you <span class='hl'>go</span> last summer?", "روحت فين الصيف اللي فات؟"]
+        ]
+      },
+      { id:"past-cont", group:"الماضي", nameAr:"الماضي المستمر", nameEn:"Past Continuous",
+        desc:"لفعل كان مستمرًا في لحظة معينة في الماضي، غالبًا يُقاطعه فعل آخر.",
+        formula:[["was/were","h"],["V-ing","v"]],
+        forms:{ aff:"S + was/were + V-ing", neg:"S + wasn't/weren't + V-ing", q:"Was / Were + S + V-ing ?" },
+        signals:["while","when","at that moment","all day yesterday","at 5 PM"],
+        examples:[
+          ["aff","I <span class='hl'>was sleeping</span> when you called.", "كنت نايم لما اتصلت."],
+          ["aff","She <span class='hl'>was cooking</span> while he was studying.", "هي كانت بتطبخ وهو كان بيذاكر."],
+          ["aff","It <span class='hl'>was raining</span> all day yesterday.", "كانت بتمطر طول يوم إمبارح."],
+          ["neg","They <span class='hl'>weren't listening</span> when the teacher explained.", "هما ماكانوش بيسمعوا لما المدرس شرح."],
+          ["neg","I <span class='hl'>wasn't paying</span> attention at that moment.", "ماكنتش واخد بالي في اللحظة دي."],
+          ["q","What <span class='hl'>were</span> you <span class='hl'>doing</span> at midnight?", "كنت بتعمل إيه نص الليل؟"],
+          ["q","Were they <span class='hl'>playing</span> football at 5 PM yesterday?", "هل هما كانوا بيلعبوا كورة الساعة 5 إمبارح؟"]
+        ]
+      },
+      { id:"past-perf", group:"الماضي", nameAr:"الماضي التام", nameEn:"Past Perfect",
+        desc:"لفعل حدث قبل فعل آخر في الماضي — الأقدم بين فعلين ماضيين.",
+        formula:[["had","h"],["V3 (past participle)","v"]],
+        forms:{ aff:"S + had + V3", neg:"S + hadn't + V3", q:"Had + S + V3 ?" },
+        signals:["before","after","by the time","already","never","when"],
+        examples:[
+          ["aff","I <span class='hl'>had finished</span> dinner before he arrived.", "كنت خلصت العشا قبل ما هو يوصل."],
+          ["aff","By the time we arrived, the movie <span class='hl'>had started</span>.", "لما وصلنا، الفيلم كان بدأ."],
+          ["aff","She <span class='hl'>had already left</span> when I called.", "هي كانت مشيت لما اتصلت."],
+          ["neg","They <span class='hl'>hadn't seen</span> snow before that trip.", "ما كانوش شافوا تلج قبل الرحلة دي."],
+          ["neg","We <span class='hl'>hadn't eaten</span> anything before the meeting.", "ما كناش اكلنا حاجة قبل الاجتماع."],
+          ["q","Had you <span class='hl'>met</span> him before the meeting?", "هل كنت قابلته قبل الاجتماع؟"],
+          ["q","Had she <span class='hl'>finished</span> the exam by 10 AM?", "هل كانت خلصت الامتحان قبل الساعة 10؟"]
+        ]
+      },
+      { id:"past-perf-cont", group:"الماضي", nameAr:"الماضي التام المستمر", nameEn:"Past Perfect Continuous",
+        desc:"لفعل استمر لفترة قبل حدوث فعل آخر في الماضي.",
+        formula:[["had","h"],["been","b"],["V-ing","v"]],
+        forms:{ aff:"S + had been + V-ing", neg:"S + hadn't been + V-ing", q:"Had + S + been + V-ing ?" },
+        signals:["for","since","before","by the time","because"],
+        examples:[
+          ["aff","I <span class='hl'>had been waiting</span> for an hour before she came.", "كنت مستني من ساعة قبل ما هي تيجي."],
+          ["aff","He <span class='hl'>had been working</span> there for 5 years before he resigned.", "كان شغال هناك 5 سنين قبل ما يستقيل."],
+          ["aff","She was tired because she <span class='hl'>had been studying</span> all night.", "كانت تعبانة لأنها كانت بتذاكر طول الليل."],
+          ["neg","They <span class='hl'>hadn't been driving</span> for long when the car broke down.", "ماكانوش بيسوقوا من مدة طويلة لما العربية عطلت."],
+          ["neg","I <span class='hl'>hadn't been feeling</span> well before the trip.", "ماكنتش حاسس إني تمام قبل الرحلة."],
+          ["q","How long <span class='hl'>had</span> you <span class='hl'>been living</span> there before you moved?", "من إمتى كنت عايش هناك قبل ما تنتقل؟"],
+          ["q","Had they <span class='hl'>been driving</span> for hours before it broke down?", "هل كانوا بيسوقوا لساعات قبل ما تعطل؟"]
+        ]
+      },
+      { id:"fut-simple", group:"المستقبل", nameAr:"المستقبل البسيط", nameEn:"Simple Future",
+        desc:"لقرار لحظي، وعد، توقع، أو حدث مستقبلي بسيط.",
+        formula:[["will","h"],["V1 (base form)","v"]],
+        forms:{ aff:"S + will + V1", neg:"S + won't + V1", q:"Will + S + V1 ?" },
+        signals:["tomorrow","next week","soon","I think","probably","in the future"],
+        examples:[
+          ["aff","I <span class='hl'>will call</span> you tomorrow.", "هكلمك بكرة."],
+          ["aff","She <span class='hl'>will help</span> you with the project.", "هي هتساعدك في المشروع."],
+          ["aff","It <span class='hl'>will rain</span> this evening, I think.", "هتمطر النهارده بالليل أعتقد."],
+          ["neg","They <span class='hl'>won't come</span> to the party.", "هما مش هيجوا الحفلة."],
+          ["neg","I <span class='hl'>won't tell</span> anyone, I promise.", "مش هقول لحد، أعدك."],
+          ["q","Will you <span class='hl'>marry</span> me?", "هل هتتجوزيني؟"],
+          ["q","Will they <span class='hl'>arrive</span> soon?", "هل هيوصلوا قريب؟"]
+        ]
+      },
+      { id:"fut-cont", group:"المستقبل", nameAr:"المستقبل المستمر", nameEn:"Future Continuous",
+        desc:"لفعل سيكون مستمرًا في لحظة معينة في المستقبل.",
+        formula:[["will be","h"],["V-ing","v"]],
+        forms:{ aff:"S + will be + V-ing", neg:"S + won't be + V-ing", q:"Will + S + be + V-ing ?" },
+        signals:["at this time tomorrow","this time next week","while"],
+        examples:[
+          ["aff","I <span class='hl'>will be sleeping</span> at midnight.", "هكون نايم نص الليل."],
+          ["aff","This time tomorrow, we <span class='hl'>will be flying</span> to Dubai.", "في نفس الوقت بكرة، هنكون طايرين دبي."],
+          ["aff","She <span class='hl'>will be working</span> when you arrive.", "هي هتكون شغالة لما توصل."],
+          ["neg","They <span class='hl'>won't be waiting</span> for us at the airport.", "هما مش هيكونوا مستنيينا في المطار."],
+          ["neg","I <span class='hl'>won't be using</span> the car tonight.", "مش هكون مستخدم العربية الليلة."],
+          ["q","What <span class='hl'>will</span> you <span class='hl'>be doing</span> at 8 PM?", "هتكون بتعمل إيه الساعة 8 بالليل؟"],
+          ["q","Will she <span class='hl'>be staying</span> at home this time tomorrow?", "هل هتكون قاعدة في البيت في نفس الوقت بكرة؟"]
+        ]
+      },
+      { id:"fut-perf", group:"المستقبل", nameAr:"المستقبل التام", nameEn:"Future Perfect",
+        desc:"لفعل سينتهي قبل نقطة زمنية معينة في المستقبل.",
+        formula:[["will have","h"],["V3 (past participle)","v"]],
+        forms:{ aff:"S + will have + V3", neg:"S + won't have + V3", q:"Will + S + have + V3 ?" },
+        signals:["by next year","by the time","before","by 2030"],
+        examples:[
+          ["aff","I <span class='hl'>will have finished</span> the report by Friday.", "هكون خلصت التقرير قبل الجمعة."],
+          ["aff","She <span class='hl'>will have graduated</span> by next June.", "هي هتكون اتخرجت قبل يونيو الجاي."],
+          ["aff","By the time you arrive, we <span class='hl'>will have left</span>.", "لما توصل، إحنا هنكون مشينا."],
+          ["neg","They <span class='hl'>won't have built</span> the bridge by 2027.", "هما مش هيكونوا بنوا الكوبري قبل 2027."],
+          ["neg","He <span class='hl'>won't have finished</span> by then.", "هو مش هيكون خلص بحلول وقتها."],
+          ["q","Will you <span class='hl'>have finished</span> by then?", "هل هتكون خلصت بحلول وقتها؟"],
+          ["q","Will she <span class='hl'>have arrived</span> before midnight?", "هل هتكون وصلت قبل نص الليل؟"]
+        ]
+      },
+      { id:"fut-perf-cont", group:"المستقبل", nameAr:"المستقبل التام المستمر", nameEn:"Future Perfect Continuous",
+        desc:"لفعل سيكون مستمرًا لفترة معينة حتى لحظة محددة في المستقبل.",
+        formula:[["will have been","h"],["V-ing","v"]],
+        forms:{ aff:"S + will have been + V-ing", neg:"S + won't have been + V-ing", q:"Will + S + have been + V-ing ?" },
+        signals:["by next year (+ for)","for...by the time"],
+        examples:[
+          ["aff","By next month, I <span class='hl'>will have been working</span> here for 10 years.", "بحلول الشهر الجاي، هكون شغال هنا من 10 سنين."],
+          ["aff","She <span class='hl'>will have been studying</span> for 5 hours by 6 PM.", "هي هتكون بتذاكر من 5 ساعات لحد الساعة 6."],
+          ["aff","By 2030, they <span class='hl'>will have been living</span> here for two decades.", "بحلول 2030، هيكونوا عايشين هنا من عشرين سنة."],
+          ["neg","He <span class='hl'>won't have been driving</span> for long by then.", "هو مش هيكون سايق من مدة طويلة بحلول وقتها."],
+          ["neg","We <span class='hl'>won't have been waiting</span> for more than an hour.", "إحنا مش هنكون مستنيين أكتر من ساعة."],
+          ["q","How long <span class='hl'>will</span> you <span class='hl'>have been working</span> by retirement?", "هتكون اشتغلت قد إيه لحد المعاش؟"],
+          ["q","Will he <span class='hl'>have been driving</span> for 8 hours by the time he arrives?", "هل هيكون بيسوق من 8 ساعات لما يوصل؟"]
+        ]
+      }
+    ];
+
+    // ============================================================
+    // 3. DOM References
+    // ============================================================
+    const wordGrid = document.getElementById('wordGrid');
+    const searchInput = document.getElementById('searchInput');
+    const resultCount = document.getElementById('resultCount');
+    const menuToggle = document.getElementById('menuToggle');
+    const drawer = document.getElementById('drawer');
+    const drawerOverlay = document.getElementById('drawerOverlay');
+    const drawerClose = document.getElementById('drawerClose');
+    const settingsToggle = document.getElementById('settingsToggle');
+    const settingsPanel = document.getElementById('settingsPanel');
+    const settingsClose = document.getElementById('settingsClose');
+    const dictionarySection = document.getElementById('dictionarySection');
+    const grammarSection = document.getElementById('grammarSection');
+    const quizSection = document.getElementById('quizSection');
+    const quizQuestion = document.getElementById('quizQuestion');
+    const quizOptions = document.getElementById('quizOptions');
+    const quizInputArea = document.getElementById('quizInputArea');
+    const quizFillInput = document.getElementById('quizFillInput');
+    const quizFillBtn = document.getElementById('quizFillBtn');
+    const quizFeedback = document.getElementById('quizFeedback');
+    const quizNextBtn = document.getElementById('quizNextBtn');
+    const quizResetBtn = document.getElementById('quizResetBtn');
+    const quizProgress = document.getElementById('quizProgress');
+    const fontDec = document.getElementById('fontDec');
+    const fontInc = document.getElementById('fontInc');
+    const fontSizeDisplay = document.getElementById('fontSizeDisplay');
+    const fontSelect = document.getElementById('fontSelect');
+
+    // ============================================================
+    // 4. State
+    // ============================================================
+    let currentFilter = '';
+    let quizMode = 'meaning';
+    let quizQuestions = [];
+    let quizIndex = 0;
+    let quizAnswered = false;
+    let currentQuizWord = null;
+
+    // ============================================================
+    // 5. Dictionary Functions
+    // ============================================================
+    function renderWords(filter = '') {
+      const f = filter.trim().toLowerCase();
+      const filtered = wordsData.filter(w => 
+        w.en.toLowerCase().includes(f) || w.ar.includes(f)
+      );
+      resultCount.textContent = filtered.length;
+      if (filtered.length === 0) {
+        wordGrid.innerHTML = `<div class="word-card" style="justify-content:center;color:var(--sub);">🔍 لا توجد نتائج</div>`;
+        return;
+      }
+      let html = '';
+      for (let w of filtered) {
+        html += `
+          <div class="word-card">
+            <div class="word-content">
+              <span class="word-en">${w.en}</span>
+              <span class="word-ar">${w.ar}</span>
+            </div>
+            <div class="word-actions">
+              <button class="speak-btn" data-lang="en" data-text="${w.en}"><i class="fas fa-volume-up"></i> EN</button>
+              <button class="speak-btn ar-btn" data-lang="ar" data-text="${w.ar}"><i class="fas fa-volume-up"></i> AR</button>
+            </div>
+          </div>
+        `;
+      }
+      wordGrid.innerHTML = html;
+      document.querySelectorAll('.speak-btn').forEach(btn => {
+        btn.addEventListener('click', function(e) {
+          e.stopPropagation();
+          speakText(this.dataset.text, this.dataset.lang);
+        });
+      });
+    }
+
+    function speakText(text, lang) {
+      if (!window.speechSynthesis) return alert('المتصفح لا يدعم النطق');
+      window.speechSynthesis.cancel();
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.lang = lang === 'ar' ? 'ar-SA' : 'en-US';
+      utterance.rate = 0.85;
+      speechSynthesis.speak(utterance);
+    }
+
+    // ============================================================
+    // 6. Grammar Functions
+    // ============================================================
+    const groups = [...new Set(tenses.map(t=>t.group))];
+    const ddList = document.getElementById('ddList');
+    const ddToggle = document.getElementById('ddToggle');
+    const ddCurAr = document.getElementById('ddCurAr');
+    const ddCurEn = document.getElementById('ddCurEn');
+    const panels = document.getElementById('panels');
+
+    groups.forEach(g=>{
+      const label = document.createElement('div');
+      label.className = 'dd-group-label';
+      label.textContent = g;
+      ddList.appendChild(label);
+      tenses.filter(t=>t.group===g).forEach(t=>{
+        const item = document.createElement('button');
+        item.className = 'dd-item';
+        item.dataset.id = t.id;
+        item.innerHTML = `${t.nameAr} <span class="en">${t.nameEn}</span>`;
+        item.onclick = ()=>{ showTense(t.id); closeDD(); };
+        ddList.appendChild(item);
+      });
+    });
+
+    const tagLabel = { aff:['مثبت','aff'], neg:['منفي','neg'], q:['سؤال','q'] };
+
+    tenses.forEach(t=>{
+      const panel = document.createElement('section');
+      panel.className = 'panel';
+      panel.id = 'panel-'+t.id;
+
+      const formulaHtml = t.formula.map(([txt,cls])=>{
+        return `<span class="piece ${cls}">${txt}</span>`;
+      }).filter(Boolean).join('<span class="plus"> + </span>');
+
+      const formsHtml = `
+        <div class="forms-grid">
+          <div class="form-card aff"><div class="lbl">✔ مثبت</div><div class="pattern">${t.forms.aff}</div></div>
+          <div class="form-card neg"><div class="lbl">✘ منفي</div><div class="pattern">${t.forms.neg}</div></div>
+          <div class="form-card q"><div class="lbl">؟ سؤال</div><div class="pattern">${t.forms.q}</div></div>
+        </div>`;
+
+      const examplesHtml = t.examples.map((ex,i)=>{
+        const [kind,en,ar] = ex;
+        const cardCls = kind==='neg' ? 'neg' : (i%2 ? 'alt':'');
+        const tagAr = tagLabel[kind][0];
+        return `
+          <div class="ex-card ${cardCls}">
+            <div class="ex-tag">${tagAr}</div>
+            <div class="ex-en">${en}</div>
+            <div class="ex-ar">${ar}</div>
+          </div>`;
+      }).join('');
+
+      const signalsHtml = t.signals.map(s=>`<span class="signal-chip">${s}</span>`).join('');
+
+      panel.innerHTML = `
+        <div class="tense-head">
+          <div class="tense-name-en">${t.nameEn}</div>
+          <h2>${t.nameAr}</h2>
+          <p class="tense-desc">${t.desc}</p>
+        </div>
+        <div class="formula">${formulaHtml}</div>
+        <p class="section-label">الحالات الثلاث للزمن</p>
+        ${formsHtml}
+        <p class="section-label">أمثلة</p>
+        <div class="examples">${examplesHtml}</div>
+        <p class="signals-note">كلمات إشارة شائعة:</p>
+        <div class="signals">${signalsHtml}</div>
+      `;
+      panels.appendChild(panel);
+    });
+
+    function showTense(id){
+      const t = tenses.find(x=>x.id===id);
+      document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+      document.querySelectorAll('.dd-item').forEach(b=>b.classList.remove('active'));
+      document.getElementById('panel-'+id).classList.add('active');
+      const item = document.querySelector(`.dd-item[data-id="${id}"]`);
+      if(item) item.classList.add('active');
+      ddCurAr.textContent = t.nameAr;
+      ddCurEn.textContent = t.nameEn;
+      window.scrollTo({top: document.querySelector('.nav-bar').offsetTop, behavior:'smooth'});
+    }
+
+    function openDD(){ ddList.classList.add('open'); ddToggle.classList.add('open'); }
+    function closeDD(){ ddList.classList.remove('open'); ddToggle.classList.remove('open'); }
+    ddToggle.onclick = ()=>{ if(ddList.classList.contains('open')) closeDD(); else openDD(); };
+    document.addEventListener('click',(e)=>{ if(!e.target.closest('.nav-inner')) closeDD(); });
+
+    // ============================================================
+    // 7. Quiz Functions
+    // ============================================================
+    function generateQuizQuestions(mode) {
+      if (mode === 'grammar') {
+        const shuffled = [...tenses].sort(() => Math.random() - 0.5);
+        const count = Math.min(10, shuffled.length);
+        const selected = shuffled.slice(0, count);
+        return selected.map(t => {
+          const ex = t.examples[Math.floor(Math.random() * t.examples.length)];
+          const sentence = ex[1].replace(/<[^>]*>/g, '');
+          const wrongs = tenses.filter(x => x.id !== t.id).sort(() => Math.random() - 0.5).slice(0, 3);
+          const opts = [t.nameAr, ...wrongs.map(x => x.nameAr)];
+          return { 
+            word: { en: sentence, ar: t.nameAr, tense: t.id }, 
+            options: opts.sort(() => Math.random() - 0.5),
+            isGrammar: true,
+            correctId: t.id
+          };
+        });
+      } else {
+        const shuffled = [...wordsData].sort(() => Math.random() - 0.5);
+        const count = Math.min(12, shuffled.length);
+        const selected = shuffled.slice(0, count);
+        return selected.map(w => {
+          if (mode === 'meaning') {
+            const wrongs = wordsData.filter(x => x.en !== w.en).sort(() => Math.random() - 0.5).slice(0, 3);
+            const opts = [w.ar, ...wrongs.map(x => x.ar)];
+            return { word: w, options: opts.sort(() => Math.random() - 0.5), isGrammar: false };
+          } else {
+            return { word: w, options: [], isGrammar: false };
+          }
+        });
+      }
+    }
+
+    function startQuiz(mode) {
+      quizMode = mode;
+      quizQuestions = generateQuizQuestions(mode);
+      quizIndex = 0;
+      quizAnswered = false;
+      quizFeedback.textContent = '';
+      quizFeedback.className = 'quiz-feedback';
+      showQuizQuestion();
+    }
+
+    function showQuizQuestion() {
+      if (quizIndex >= quizQuestions.length) {
+        quizQuestion.textContent = '🎉 انتهى الاختبار! اضغط "إعادة" للبدء من جديد';
+        quizOptions.innerHTML = '';
+        quizInputArea.classList.add('hidden');
+        quizFeedback.textContent = 'أحسنت!';
+        quizProgress.textContent = `${quizIndex} / ${quizQuestions.length}`;
+        return;
+      }
+      const q = quizQuestions[quizIndex];
+      currentQuizWord = q.word;
+      quizAnswered = false;
+      quizFeedback.textContent = '';
+      quizFeedback.className = 'quiz-feedback';
+
+      if (q.isGrammar) {
+        quizQuestion.textContent = `⏳ اختر الزمن الصحيح للجملة: "${q.word.en}"`;
+        quizOptions.classList.remove('hidden');
+        quizInputArea.classList.add('hidden');
+        let optsHtml = '';
+        for (let opt of q.options) {
+          optsHtml += `<button data-answer="${opt}">${opt}</button>`;
+        }
+        quizOptions.innerHTML = optsHtml;
+        quizOptions.querySelectorAll('button').forEach(btn => {
+          btn.addEventListener('click', function() {
+            if (quizAnswered) return;
+            const selected = this.textContent;
+            const correct = currentQuizWord.ar;
+            if (selected === correct) {
+              this.classList.add('correct');
+              quizFeedback.textContent = '✅ إجابة صحيحة!';
+              quizFeedback.style.color = '#22c55e';
+            } else {
+              this.classList.add('wrong');
+              quizFeedback.textContent = `❌ خطأ، الزمن الصحيح: "${correct}"`;
+              quizFeedback.style.color = '#ef4444';
+              quizOptions.querySelectorAll('button').forEach(b => {
+                if (b.textContent === correct) b.classList.add('correct');
+              });
+            }
+            quizAnswered = true;
+          });
+        });
+      } else if (quizMode === 'meaning') {
+        quizQuestion.textContent = `🔹 اختر المعنى الصحيح لكلمة: "${q.word.en}"`;
+        quizOptions.classList.remove('hidden');
+        quizInputArea.classList.add('hidden');
+        let optsHtml = '';
+        for (let opt of q.options) {
+          optsHtml += `<button data-answer="${opt}">${opt}</button>`;
+        }
+        quizOptions.innerHTML = optsHtml;
+        quizOptions.querySelectorAll('button').forEach(btn => {
+          btn.addEventListener('click', function() {
+            if (quizAnswered) return;
+            const selected = this.textContent;
+            const correct = currentQuizWord.ar;
+            if (selected === correct) {
+              this.classList.add('correct');
+              quizFeedback.textContent = '✅ إجابة صحيحة!';
+              quizFeedback.style.color = '#22c55e';
+            } else {
+              this.classList.add('wrong');
+              quizFeedback.textContent = `❌ خطأ، الإجابة: "${correct}"`;
+              quizFeedback.style.color = '#ef4444';
+              quizOptions.querySelectorAll('button').forEach(b => {
+                if (b.textContent === correct) b.classList.add('correct');
+              });
+            }
+            quizAnswered = true;
+          });
+        });
+      } else {
+        quizOptions.classList.add('hidden');
+        quizInputArea.classList.remove('hidden');
+        const wordEn = q.word.en;
+        let display = '';
+        if (wordEn.length <= 4) {
+          display = wordEn[0] + '___' + wordEn[wordEn.length-1];
+        } else {
+          display = wordEn.slice(0,2) + '___' + wordEn.slice(-2);
+        }
+        quizQuestion.textContent = `✏️ أكمل الكلمة: "${display}" (المعنى: ${q.word.ar})`;
+        quizFillInput.value = '';
+        quizFillInput.focus();
+        quizFillBtn.onclick = function() {
+          if (quizAnswered) return;
+          const userAns = quizFillInput.value.trim().toLowerCase();
+          const correct = currentQuizWord.en.toLowerCase();
+          if (userAns === correct) {
+            quizFeedback.textContent = '✅ صحيح!';
+            quizFeedback.style.color = '#22c55e';
+          } else {
+            quizFeedback.textContent = `❌ الإجابة: "${currentQuizWord.en}"`;
+            quizFeedback.style.color = '#ef4444';
+          }
+          quizAnswered = true;
+        };
+        quizFillInput.addEventListener('keydown', function(e) {
+          if (e.key === 'Enter') quizFillBtn.click();
+        });
+      }
+      quizProgress.textContent = `${quizIndex+1} / ${quizQuestions.length}`;
+    }
+
+    function nextQuizQuestion() {
+      if (quizIndex >= quizQuestions.length) { startQuiz(quizMode); return; }
+      quizIndex++;
+      showQuizQuestion();
+    }
+
+    // ============================================================
+    // 8. Navigation
+    // ============================================================
+    function showSection(section) {
+      document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+      if (section === 'dictionary') {
+        dictionarySection.classList.add('active');
+        renderWords(currentFilter);
+      } else if (section === 'grammar') {
+        grammarSection.classList.add('active');
+        const activePanel = document.querySelector('.panel.active');
+        if (!activePanel) showTense(tenses[0].id);
+      } else if (section === 'quiz') {
+        quizSection.classList.add('active');
+        if (quizQuestions.length === 0 || quizIndex >= quizQuestions.length) startQuiz('meaning');
+      } else if (section === 'settings') {
+        settingsPanel.classList.toggle('open');
+      }
+      closeDrawer();
+    }
+
+    function openDrawer() { drawer.classList.add('open'); drawerOverlay.classList.add('active'); }
+    function closeDrawer() { drawer.classList.remove('open'); drawerOverlay.classList.remove('active'); }
+
+    // ============================================================
+    // 9. Events
+    // ============================================================
+    searchInput.addEventListener('input', function() {
+      currentFilter = this.value;
+      if (dictionarySection.classList.contains('active')) renderWords(currentFilter);
+    });
+
+    menuToggle.addEventListener('click', openDrawer);
+    drawerClose.addEventListener('click', closeDrawer);
+    drawerOverlay.addEventListener('click', closeDrawer);
+
+    document.querySelectorAll('.drawer-item').forEach(item => {
+      item.addEventListener('click', function() {
+        const section = this.dataset.section;
+        if (section === 'settings') {
+          settingsPanel.classList.toggle('open');
+          closeDrawer();
+        } else {
+          showSection(section);
+        }
+      });
+    });
+
+    settingsToggle.addEventListener('click', () => settingsPanel.classList.toggle('open'));
+    settingsClose.addEventListener('click', () => settingsPanel.classList.remove('open'));
+
+    // Theme
+    const themeButtons = document.querySelectorAll('.theme-btns button');
+    themeButtons.forEach(btn => {
+      btn.addEventListener('click', function() {
+        const theme = this.dataset.theme;
+        document.body.className = theme;
+        themeButtons.forEach(b => b.classList.remove('active-theme'));
+        this.classList.add('active-theme');
+        localStorage.setItem('theme', theme);
+      });
+    });
+
+    // Font
+    fontSelect.addEventListener('change', function() {
+      const font = this.value;
+      document.body.style.fontFamily = font + ', sans-serif';
+      localStorage.setItem('font', font);
+    });
+
+    // Font Size
+    let currentFontSize = parseInt(getComputedStyle(document.body).fontSize) || 16;
+    function updateFontSize() {
+      document.body.style.fontSize = currentFontSize + 'px';
+      fontSizeDisplay.textContent = currentFontSize;
+      localStorage.setItem('fontSize', currentFontSize);
+    }
+    fontDec.addEventListener('click', () => { if (currentFontSize > 12) { currentFontSize--; updateFontSize(); } });
+    fontInc.addEventListener('click', () => { if (currentFontSize < 28) { currentFontSize++; updateFontSize(); } });
+
+    // Quiz Type
+    document.querySelectorAll('.quiz-type-toggle button').forEach(btn => {
+      btn.addEventListener('click', function() {
+        document.querySelectorAll('.quiz-type-toggle button').forEach(b => b.classList.remove('active'));
+        this.classList.add('active');
+        startQuiz(this.dataset.quiz);
+      });
+    });
+    quizNextBtn.addEventListener('click', nextQuizQuestion);
+    quizResetBtn.addEventListener('click', () => startQuiz(quizMode));
+
+    // ============================================================
+    // 10. Init
+    // ============================================================
+    function init() {
+      const savedTheme = localStorage.getItem('theme') || 'dark';
+      document.body.className = savedTheme;
+      themeButtons.forEach(b => {
+        if (b.dataset.theme === savedTheme) b.classList.add('active-theme');
+      });
+      const savedFont = localStorage.getItem('font') || 'Tajawal';
+      fontSelect.value = savedFont;
+      document.body.style.fontFamily = savedFont + ', sans-serif';
+      const savedSize = parseInt(localStorage.getItem('fontSize'));
+      if (savedSize && savedSize >= 12 && savedSize <= 28) {
+        currentFontSize = savedSize;
+        updateFontSize();
+      } else {
+        updateFontSize();
+      }
+      renderWords('');
+      showTense(tenses[0].id);
+      startQuiz('meaning');
+      showSection('dictionary');
+    }
+    init();
+
+    // ============================================================
+    // 11. Service Worker (PWA) - تسجيل الـ Service Worker
+    // ============================================================
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('sw.js')
+        .then(() => console.log('✅ Service Worker مسجل بنجاح'))
+        .catch(err => console.log('❌ فشل تسجيل الـ Service Worker:', err));
+    }
+
+  })();
+</script>
+</body>
+</html>
