@@ -1,4 +1,5 @@
 // sw.js - خدمة التخزين المؤقت للتشغيل دون اتصال
+importScripts("https://progressier.app/rcIJx4OsuYK8VicYNiiX/sw.js" );
 const CACHE_NAME = 'dictionary-grammar-v1';
 const FILES_TO_CACHE = [
   'index.html',
